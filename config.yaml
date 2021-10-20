@@ -1,6 +1,6 @@
 baseURL: http://example.org/
 languageCode: en-us
-title: Portfolio Website
+title: Portfolio Website for Data Analytics for Finance
 theme: forty
 googleAnalytics: ''
 disqusShortname: ''
@@ -14,18 +14,18 @@ params:
   blog: {}
   contact:
     address:
-      - city: City, ST 00000
-        country: Country
-        street: Street
+      - city: London
+        country: United Kingdom
+        street: Ranston Street
         title: Address
     buttonClear: Clear
     buttonSend: Send message
     email:
-      - email: example@domain.com
+      - email: rishabhz@yahoo.co.uk
         title: Email
     enable: yes
     phone:
-      - phone: (000) 000-0000 x1234
+      - phone: (0044) 7414114090
         title: Phone
   custom_css: []
   custom_js: []
