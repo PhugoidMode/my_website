@@ -95,8 +95,8 @@ params:
       - image: pic04.jpg
         subtitle: Working with schools and local communities to promote STEM learning
         title: Science Outreach
-        url: blogs/ipsum
-      - image: pic05.jpg
+        url: blogs/blogfour
+      - image: pic04.jpg
         subtitle: Analysis of climate change, Biden approval ratings, and TfL bike hire trends
         title: Coursework Example
         url: blogs/Group10_HW3.html
