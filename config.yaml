@@ -85,8 +85,8 @@ params:
         title: Writing
         url: blogs/aliquam
       - image: pic02.jpg
-        subtitle: Feugiat Amet Tempus  # Top right
-        title: Tempus
+        subtitle: Istanbul AirBnB Price Analysis  # Top right
+        title: A regression analysis on the price of AirBnBs in Istanbul
         url: blogs/tempus
       - image: JetXXPEC.jpg
         subtitle: An independently designed and built jet engine  # Middle left
@@ -118,6 +118,7 @@ params:
     consultancy (Transmission Dynamics), served as a Young Professional 
     Ambassador for the Institution of Engineering and Technology, and interned
     at Barclays Investment Bank. \n He is now studying for a Master's in 
-    Financial Analysis at London Business School \n"
+    Financial Analysis at London Business School. \n \n In his spare time, he 
+    enjoys reading, cooking, AC/DC, and Pink Floyd. \n"
     title: About Rishabh
     url: blogs
