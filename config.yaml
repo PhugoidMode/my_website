@@ -6,7 +6,7 @@ googleAnalytics: ''
 disqusShortname: ''
 params:
   banner:
-    buttonText: Get Started
+    buttonText: Explore
     subtitle: |-
       Personal Website
     title: Hi, my name is Rishabh
@@ -81,8 +81,8 @@ params:
     enable: yes
     showcase:
       - image: pic01.jpg
-        subtitle: Ipsum Dolor Sit Amet  # Top left 
-        title: Aliquam
+        subtitle: Creative Writing Exercises  # Top left 
+        title: Writing
         url: blogs/aliquam
       - image: pic02.jpg
         subtitle: Feugiat Amet Tempus  # Top right
@@ -109,8 +109,9 @@ params:
     enable: yes
     subtitle: "Rishabh was born in the east Indian city of Calcutta, and grew 
     up in Newcastle upon Tyne, northern England, attending the Newcastle Royal 
-    Grammar School, receiving the Arkwright Engineering Scholarship, and a Gold 
-    CREST award for  six month project with Nissan.\n Going on to study
+    Grammar School. He received the Arkwright Engineering Scholarship, and a Gold 
+    CREST award for a six month project with Nissan.\n Going on to study Aerospace
+    Systems Engineering at the University of Glasgow, he joined
     several engineering-focused societies, such as JetX Engineering, worked as 
     a research assistant in the Fluid-Structures Interaction group, and was a
     TA for mathematics. \n During this time, he interned in an engineering 
