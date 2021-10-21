@@ -103,7 +103,7 @@ params:
       - image: pic06.jpg
         subtitle: Interview in the Telegraph newspaper
         title: Feature in The Telegraph
-        url: blogs/ipsum
+        url: blogs/blogsix
   two:
     buttonText: Explore  # Need \n at the end of every sentence
     enable: yes
