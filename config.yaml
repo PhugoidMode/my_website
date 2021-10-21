@@ -87,7 +87,7 @@ params:
       - image: pic02.jpg
         subtitle: Istanbul AirBnB Price Analysis  # Top right
         title: A Regression Analysis on the Price of AirBnBs in Istanbul
-        url: blogs/tempus
+        url: blogs/Group_10_Assignment.html
       - image: JetXXPEC.jpg
         subtitle: An independently designed and built jet engine  # Middle left
         title: JetX Engineering
@@ -97,7 +97,7 @@ params:
         title: Science Outreach
         url: blogs/blogfour
       - image: pic04.jpg
-        subtitle: Analysis of climate change, Biden approval ratings, and TfL bike hire trends
+        subtitle: Analysis of Movie Ratings
         title: Coursework Example
         url: blogs/Group10_HW3.html
       - image: pic06.jpg
