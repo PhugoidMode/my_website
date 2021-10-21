@@ -86,26 +86,26 @@ params:
         url: blogs/aliquam
       - image: pic02.jpg
         subtitle: Istanbul AirBnB Price Analysis  # Top right
-        title: A regression analysis on the price of AirBnBs in Istanbul
+        title: A Regression Analysis on the Price of AirBnBs in Istanbul
         url: blogs/tempus
       - image: JetXXPEC.jpg
         subtitle: An independently designed and built jet engine  # Middle left
         title: JetX Engineering
         url: blogs/magna
       - image: pic04.jpg
-        subtitle: Nisl Sed Aliquam
-        title: Ipsum
+        subtitle: Working with schools and local communities to promote STEM learning
+        title: Science Outreach
         url: blogs/ipsum
       - image: pic05.jpg
-        subtitle: Ipsum Dolor Sit Amet
-        title: Consequat
+        subtitle: Analysis of climate change, Biden approval ratings, and TfL bike hire trends
+        title: Coursework Example
         url: blogs/ipsum
       - image: pic06.jpg
-        subtitle: Feugiat Amet Tempus
-        title: Etiam
+        subtitle: Interview in the Telegraph newspaper
+        title: Feature in The Telegraph
         url: blogs/ipsum
   two:
-    buttonText: Get Started  # Need \n at the end of every sentence
+    buttonText: Explore  # Need \n at the end of every sentence
     enable: yes
     subtitle: "Rishabh was born in the east Indian city of Calcutta, and grew 
     up in Newcastle upon Tyne, northern England, attending the Newcastle Royal 
