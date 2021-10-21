@@ -11,4 +11,6 @@ slug: blogsix
 title: Blog6
 ---
 
-During a 
+During an outreach session at the Glasgow Science Centre I was approached for an interview about my experience as a student, and the things I wish I had known going from school to university. This is the link to the article featuring my answers: 
+
+https://www.telegraph.co.uk/education-and-careers/0/heading-uni-prospectus-wont-tell/
