@@ -1,6 +1,6 @@
 baseURL: https://rishabhsinhablog.netlify.app/
 languageCode: en-us
-title: Portfolio Website for Data Analytics for Finance
+title: Rishabh Sinha
 theme: forty
 googleAnalytics: ''
 disqusShortname: ''
@@ -8,24 +8,23 @@ params:
   banner:
     buttonText: Get Started
     subtitle: |-
-      A RESPONSIVE SITE TEMPLATE DESIGNED BY HTML5 UP
-      AND RELEASED UNDER THE CREATIVE COMMONS.
+      Personal Website
     title: Hi, my name is Rishabh
   blog: {}
   contact:
     address:
       - city: London
         country: United Kingdom
-        street: Ranston Street
+        street: Marylebone
         title: Address
     buttonClear: Clear
     buttonSend: Send message
     email:
-      - email: rishabhz@yahoo.co.uk
+      - email: rishabh.sinha357@gmail.com
         title: Email
     enable: yes
     phone:
-      - phone: (0044) 7414114090
+      - phone: (+44) 7414114090
         title: Phone
   custom_css: []
   custom_js: []
@@ -42,21 +41,21 @@ params:
         text: 'Design: '
         url: https://www.html5up.net
     social:
-      - icon: fa-twitter
-        label: Twitter
-        url: https://www.twitter.com
+#      - icon: fa-twitter
+#        label: Twitter
+#        url: https://www.twitter.com
       - icon: fa-facebook
         label: Facebook
         url: https://www.facebook.com/rishabh.sinha.3720
       - icon: fa-instagram
         label: Instagram
-        url: https://www.instagram.com
+        url: https://www.instagram.com/rishabhsinha98/
       - icon: fa-github
         label: GitHub
-        url: https://www.github.com
+        url: https://www.github.com/PhugoidMode
       - icon: fa-linkedin
         label: LinkedIn
-        url: https://www.linkedin.com
+        url: https://www.linkedin.com/in/rishabh--sinha/
   image: ''
   name: Your name
   navigation:
@@ -82,15 +81,15 @@ params:
     enable: yes
     showcase:
       - image: pic01.jpg
-        subtitle: Ipsum Dolor Sit Amet
+        subtitle: Ipsum Dolor Sit Amet  # Top left 
         title: Aliquam
         url: blogs/aliquam
       - image: pic02.jpg
-        subtitle: Feugiat Amet Tempus
+        subtitle: Feugiat Amet Tempus  # Top right
         title: Tempus
         url: blogs/tempus
-      - image: pic03.jpg
-        subtitle: Lorem Etiam Nullam
+      - image: JetXXPEC.jpg
+        subtitle: Lorem Etiam Nullam  # Middle left
         title: Magna
         url: blogs/magna
       - image: pic04.jpg
