@@ -89,8 +89,8 @@ params:
         title: Tempus
         url: blogs/tempus
       - image: JetXXPEC.jpg
-        subtitle: Lorem Etiam Nullam  # Middle left
-        title: Magna
+        subtitle: An independently designed and built jet engine  # Middle left
+        title: JetX Engineering
         url: blogs/magna
       - image: pic04.jpg
         subtitle: Nisl Sed Aliquam
@@ -105,13 +105,8 @@ params:
         title: Etiam
         url: blogs/ipsum
   two:
-    buttonText: Get Started
+    buttonText: Get Started  # Need \n at the end of every sentence
     enable: yes
-    subtitle: "Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero.
-      \n    Mauris aliquet magna magna sed nunc rhoncus pharetra. \n    Pellentesque
-      condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia
-      pellentesque lorem ipsum dolor. \n    Nullam et orci eu lorem consequat tincidunt.
-      Vivamus et sagittis libero.\n    Mauris aliquet magna magna sed nunc rhoncus
-      amet pharetra et feugiat tempus."
-    title: Massa libero
+    subtitle: "Rishabh was born in the east Indian city of Calcutta, and grew up in Newcastle upon Tyne, northern England\n"
+    title: About Rishabh
     url: blogs
