@@ -1,15 +1,14 @@
 ---
 title: "Session 2: Homework 1"
 author: "GROUP 10"
-date: "`r Sys.Date()`"
-output:
-  html_document:
-    theme: flatly
-    highlight: zenburn
-    number_sections: yes
-    toc: yes
-    toc_float: yes
-    code_folding: show
+date: "20212-09-30`"
+description: Homework 1 of Data Analytics for Finance
+image: 
+keywords: ''
+slug: Group10_HW
+categories: 
+- ''
+- ''
 ---
 
 
