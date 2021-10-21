@@ -1,0 +1,627 @@
+---
+title: "Session 2: Homework 1"
+author: "GROUP 10"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: flatly
+    highlight: zenburn
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+    code_folding: show
+---
+
+
+```{r, setup, echo=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+
+```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
+library(tidyverse)  
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(fivethirtyeight)
+library(here)
+library(skimr)
+library(janitor)
+library(vroom)
+library(tidyquant)
+library(rvest) 
+```
+
+# Where Do People Drink The Most Beer, Wine And Spirits?
+
+```{r, load_alcohol_data, warning=FALSE}
+library(fivethirtyeight)
+data(drinks)
+```
+
+**What are the variable types? Any missing values we should worry about?** 
+
+Two types of variables: Character & Numeric.
+0 missing values. 
+
+```{r, glimpse_skim_data, warning=FALSE}
+glimpse(drinks)
+skimr::skim(drinks)
+
+```
+
+
+**Make a plot that shows the top 25 beer consuming countries**
+
+```{r, beer_plot, warning=FALSE}
+drinks %>%
+  slice_max(order_by=beer_servings, n=25) %>%
+  ggplot(aes(x=beer_servings, y=fct_reorder(country, beer_servings))) +
+  geom_col() +
+  labs(
+    title = "TOP 25 BEER CONSUMING COUNTRIES ",
+    x = "Servings",
+    y = "Country"
+  )
+```
+
+**Make a plot that shows the top 25 wine consuming countries**
+
+```{r, wine_plot, warning=FALSE}
+
+drinks %>%
+  slice_max(order_by=beer_servings, n=25) %>%
+  ggplot(aes(x=wine_servings, y=fct_reorder(country, wine_servings))) +
+  geom_col() +
+   labs(
+    title = "TOP 25 WINE CONSUMING COUNTRIES ",
+    x = "Servings",
+    y = "Country"
+  )
+
+```
+
+**Finally, make a plot that shows the top 25 spirit consuming countries**
+
+```{r, spirit_plot, warning=FALSE}
+drinks %>%
+  slice_max(order_by=beer_servings, n=25) %>%
+  ggplot(aes(x=spirit_servings, y=fct_reorder(country, spirit_servings))) +
+  geom_col() +
+   labs(
+    title = "TOP 25 SPIRIT CONSUMING COUNTRIES ",
+    x = "Servings",
+    y = "Country"
+  )
+
+```
+
+**What can you infer from these plots? Don't just explain what's in the graph, but speculate or tell a short story (1-2 paragraphs max).**
+
+The graphs show us the top 25 countries that consume alcoholic beverages such as beer, wines, and spirits. We see that it is dominated by European countries who make up about 15 out of 25 of the countries. We can confidently infer that European countries enjoy their alcohol. This is probably because many of the world’s largest alcoholic beverage makers hail from the continent. One thing we found interesting was that there were no Asian countries on any of the lists. This is the case even though China has about 3 of the world’s top alcoholic beverage makers. This may because Asians consume more juices and teas rather than alcoholic beverages. 
+
+# Analysis of movies- IMDB dataset
+
+```{r,load_movies, warning=FALSE, message=FALSE}
+
+movies <- read_csv(here::here("data", "movies.csv"))
+glimpse(movies)
+skimr::skim(movies)
+
+```
+
+Besides the obvious variables of `title`, `genre`, `director`, `year`, and `duration`, the rest of the variables are as follows:
+
+- `gross` : The gross earnings in the US box office, not adjusted for inflation
+- `budget`: The movie's budget 
+- `cast_facebook_likes`: the number of facebook likes cast memebrs received
+- `votes`: the number of people who voted for (or rated) the movie in IMDB 
+- `reviews`: the number of reviews for that movie
+- `rating`: IMDB average rating 
+
+**Are there any missing values (NAs)? Are all entries distinct or are there duplicate entries?**
+
+No missing values.
+54 duplicate titles.
+
+**Produce a table with the count of movies by genre, ranked in descending order**
+
+```{r, count_of_movies_by_genre, warning=FALSE}
+unique_movies <- movies %>% 
+  distinct(title,genre, director, year,.keep_all=TRUE)
+
+count_movies_genre<- unique_movies %>% 
+  group_by(genre) %>%
+  count(sort=TRUE) 
+
+head(count_movies_genre)
+```
+
+**Produce a table with the average gross earning and budget (`gross` and `budget`) by genre.Calculate a variable `return_on_budget` which shows how many $ did a movie make at the box office for each $ of its budget. Ranked genres by this `return_on_budget` in descending order**
+
+```{r, gross_budget, warning=FALSE}
+return_on_budget_movies <- unique_movies %>% 
+  group_by(genre) %>%
+  summarise(mean_gross= mean(gross), mean_budget= mean(budget)) %>%
+  mutate(return_on_budget= (mean_gross-mean_budget)/mean_budget) %>%
+  arrange(desc(return_on_budget))
+
+head(return_on_budget_movies)
+```
+**Produce a table that shows the top 15 directors who have created the highest gross revenue in the box office. Don't just show the total gross amount, but also the mean, median, and standard deviation per director.**
+
+```{r, top15directors, warning=FALSE}
+top_15_directors <- unique_movies %>% 
+  select(director, gross) %>% 
+  group_by(director) %>% 
+  summarise(sum_gross = sum(gross), mean_gross= mean(gross), median_gross= median(gross), std_gross= sd(gross)) %>% 
+  top_n(15, sum_gross) %>% 
+  arrange(-sum_gross)
+  
+
+head(top_15_directors)
+
+```
+**Finally, ratings. Produce a table that describes how ratings are distributed by genre. We don't want just the mean, but also, min, max, median, SD and some kind of a histogram or density graph that visually shows how ratings are distributed. **
+
+```{r, ratings, warning=FALSE}
+ratings_movies<- unique_movies %>% 
+  select(genre, rating) %>% 
+  group_by(genre) %>% 
+  summarise(mean_rating= mean(rating), min_rating=min(rating), max_rating= max(rating), median_rating=median(rating), std_rating= sd(rating)) 
+
+head(ratings_movies)
+
+unique_movies %>% 
+  ggplot(aes(x=rating)) +
+  geom_histogram() +
+  facet_wrap(vars(genre))
+```
+
+**Examine the relationship between `gross` and `cast_facebook_likes`. Produce a scatterplot and write one sentence discussing whether the number of facebook likes that the cast has received is likely to be a good predictor of how much money a movie will make at the box office. What variable are you going to map to the Y- and X- axes?**
+  
+Number of facebook likes that the cast has received is not a good predictor of how much money a movie will make at the box office. There are cases where a movie earned a high revenue with zero likes.
+
+```{r,gross_on_cast_facebook_likes, warning=FALSE}
+unique_movies %>% 
+  ggplot(aes(x=cast_facebook_likes, y=gross)) +
+  geom_point() 
+
+```
+
+**Examine the relationship between `gross` and `budget`. Produce a scatterplot and write one sentence discussing whether budget is likely to be a good predictor of how much money a movie will make at the box office.**
+
+Yes, budget is a good predictor of how much revenue will the movie make. There is a positive relationship between the two as we can see from the graph.
+
+```{r, gross_on_budget, warning=FALSE}
+unique_movies %>% 
+  ggplot(aes(x=budget, y=gross)) +
+  geom_point() 
+
+```
+  
+**Examine the relationship between `gross` and `rating`. Produce a scatterplot, faceted by `genre` and discuss whether IMDB ratings are likely to be a good predictor of how much money a movie will make at the box office. Is there anything strange in this dataset?**
+
+Especially in Action, Adventure and Comedy movies higher the rating so is the revenue. However, this is not true for all genres. For example, we do not have enough data to decide on the effect of rating on the revenue for genres like Family, Romance, and Musical. Additionally, strange thing in this data set is that change in rating does not explain much the change in revenue for Horror and Crime movies. 
+
+```{r, gross_on_rating, warning=FALSE}
+unique_movies %>% 
+  ggplot(aes(x=rating, y=gross)) +
+  geom_point() +
+  facet_wrap(vars(genre))
+
+```
+
+# Returns of financial stocks
+
+```{r, load_nyse_data, message=FALSE, warning=FALSE}
+nyse <- read_csv(here::here("data","nyse.csv"))
+```
+
+**Based on this dataset, create a table and a bar plot that shows the number of companies per sector, in descending order**
+
+```{r, companies_per_sector, warning=FALSE}
+comp_per_sector <- nyse %>% 
+  group_by(sector) %>% 
+  summarise(count= count(sector)) %>% 
+  arrange(desc(count))
+
+head(comp_per_sector)
+
+ggplot(comp_per_sector, aes(x=count, y= fct_reorder(sector,count))) +
+  geom_col()
+```
+
+
+```{r, tickers_from_wikipedia}
+
+djia_url <- "https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average"
+
+
+#get tables that exist on URL
+tables <- djia_url %>% 
+  read_html() %>% 
+  html_nodes(css="table")
+
+
+# parse HTML tables into a dataframe called djia. 
+# Use purr::map() to create a list of all tables in URL
+djia <- map(tables, . %>% 
+               html_table(fill=TRUE)%>% 
+               clean_names())
+
+
+# constituents
+table1 <- djia[[2]] %>% # the second table on the page contains the ticker symbols
+  mutate(date_added = ymd(date_added),
+         
+         # if a stock is listed on NYSE, its symbol is, e.g., NYSE: MMM
+         # We will get prices from yahoo finance which requires just the ticker
+         
+         # if symbol contains "NYSE*", the * being a wildcard
+         # then we jsut drop the first 6 characters in that string
+         ticker = ifelse(str_detect(symbol, "NYSE*"),
+                          str_sub(symbol,7,11),
+                          symbol)
+         )
+
+# we need a vector of strings with just the 30 tickers + SPY
+tickers <- table1 %>% 
+  select(ticker) %>% 
+  pull() %>% # pull() gets them as a sting of characters
+  c("SPY") # and lets us add SPY, the SP500 ETF
+
+```
+
+```{r, get_price_data, message=FALSE, warning=FALSE, cache=TRUE}
+# Notice the cache=TRUE argument in the chunk options. Because getting data is time consuming, # cache=TRUE means that once it downloads data, the chunk will not run again next time you knit your Rmd
+
+myStocks <- tickers %>% 
+  tq_get(get  = "stock.prices",
+         from = "2000-01-01",
+         to   = Sys.Date()) %>% # Sys.Date() returns today's price
+  group_by(symbol) 
+
+glimpse(myStocks) # examine the structure of the resulting data frame
+```
+
+
+```{r, calculate_returns, message=FALSE, warning=FALSE, cache=TRUE}
+#calculate daily returns
+myStocks_returns_daily <- myStocks %>%
+  tq_transmute(select     = adjusted, 
+               mutate_fun = periodReturn, 
+               period     = "daily", 
+               type       = "log",
+               col_rename = "daily_returns",
+               cols = c(nested.col))  
+
+#calculate monthly  returns
+myStocks_returns_monthly <- myStocks %>%
+  tq_transmute(select     = adjusted, 
+               mutate_fun = periodReturn, 
+               period     = "monthly", 
+               type       = "arithmetic",
+               col_rename = "monthly_returns",
+               cols = c(nested.col)) 
+
+#calculate yearly returns
+myStocks_returns_annual <- myStocks %>%
+  group_by(symbol) %>%
+  tq_transmute(select     = adjusted, 
+               mutate_fun = periodReturn, 
+               period     = "yearly", 
+               type       = "arithmetic",
+               col_rename = "yearly_returns",
+               cols = c(nested.col))
+```
+
+**Create a table where you summarise monthly returns for each of the stocks and `SPY`; min, max, median, mean, SD.**
+
+```{r, summarise_monthly_returns, warning=FALSE}
+summr_monthly_returns <- myStocks_returns_monthly %>% 
+  group_by(symbol) %>% 
+  summarise(min= min(monthly_returns), max=max(monthly_returns), median=median(monthly_returns), mean=mean(monthly_returns), std=sd(monthly_returns)) 
+
+head(summr_monthly_returns)
+```
+
+**Plot a density plot, using `geom_density()`, for each of the stocks**
+```{r, density_monthly_returns, warning=FALSE}
+
+myStocks_returns_monthly %>%  
+  ggplot(aes(x=monthly_returns, colour=symbol)) +
+  geom_density() +
+  facet_wrap(vars(symbol)) +
+  theme(legend.position = "None") 
+
+```
+
+**What can you infer from this plot? Which stock is the riskiest? The least risky?** 
+
+This density plot shows the distribution of the probability of monthly return of a particular stock. 
+
+The wider the distribution of a stock on the horizontal axis is, the flatter the distribution line is, which implies that there are more possible monthly yield. That is to say, the variance of monthly return is larger for the stock with wider range of return. 
+
+The definition of being “risky” is positively correlated with the variance of potential return of a stock. Therefore, it can be reasonably deducted that, the stock with larger spread on the x-axis has higher risk. Among all the stocks listed on the density plot above, AAPL has the widest spread on the x-axis while SPY has the narrowest spread. Therefore, it can be concluded that Apple is the most risky stock while SPY is the least risky stock.
+
+**Finally, make a plot that shows the expected monthly return (mean) of a stock on the Y axis and the risk (standard deviation) in the X-axis. Please use `ggrepel::geom_text_repel()` to label each stock**
+
+```{r, risk_return_plot, warning=FALSE}
+library(ggrepel)
+summr_monthly_returns %>% 
+  ggplot(aes(x=std, y=mean)) +
+  geom_point() +
+  geom_text_repel(aes(label=symbol))
+
+```
+
+**What can you infer from this plot? Are there any stocks which, while being riskier, do not have a higher expected return?**
+
+Standard deviation (std) can be used as a measure of risk. When the std of a stock increases, it implies that the stock has more risks. Generally, it is expected that the mean returns of stock increases as the std increases. The positive relationship is because investors expect to earn higher returns on average when they invest in riskier stocks. 
+
+From this plot, we can see that there is a somewhat positive relationship. For example, JNJ has higher std than SPY, but it also has higher expected mean returns at the same time. 
+
+However, there are some riskier stocks that do not give higher expected returns even though they are riskier. V has higher expected returns than UNH. But at the same time, the std of V is lower than UNH. 
+
+While the plot has shown a somewhat positive relationship between risks and expected returns, it also evident that not all riskier stocks will give higher expected returns.
+
+
+# Is inflation transitory?
+
+```{r, cpi_10year, echo=FALSE, out.width="90%"}
+knitr::include_graphics(here::here("images", "cpi_10year.png"), error = FALSE)
+```
+
+```{r, get_cpi_10Year_yield}
+
+cpi  <-   tq_get("CPIAUCSL", get = "economic.data",
+                       from = "1980-01-01") %>% 
+  rename(cpi = symbol,  # FRED data is given as 'symbol' and 'price'
+         rate = price) %>% # we rename them to what they really are, e.g., cpi and rate
+  
+  # calculate yearly change in CPI by dividing current month by same month a year (or 12 months) earlier, minus 1
+  mutate(cpi_yoy_change = rate/lag(rate, 12) - 1)
+
+ten_year_monthly  <-   tq_get("GS10", get = "economic.data",
+                       from = "1980-01-01") %>% 
+  rename(ten_year = symbol,
+         yield = price) %>% 
+  mutate(yield = yield / 100) # original data is not given as, e.g., 0.05, but rather 5, for five percent
+
+# we have the two dataframes-- we now need to join them, and we will use left_join()
+# base R has a function merge() that does the same, but it's slow, so please don't use it
+
+mydata <- 
+  cpi %>% 
+  left_join(ten_year_monthly, by="date") %>% 
+  mutate(
+    year = year(date), # using lubridate::year() to generate a new column with just the year
+    month = month(date, label = TRUE),
+    decade=case_when(
+      year %in% 1980:1989 ~ "1980s",
+      year %in% 1990:1999 ~ "1990s",
+      year %in% 2000:2009 ~ "2000s",
+      year %in% 2010:2019 ~ "2010s",
+      TRUE ~ "2020s"
+      )
+  )
+head(mydata)
+
+```
+
+```{r, inflation_graph, warning=FALSE}
+mydata %>% 
+  ggplot(aes(x=cpi_yoy_change, y= yield, color=decade)) +
+  geom_point(size=0.1) +
+  facet_wrap(vars(decade), ncol=1, scales= "free") +
+  labs(y= "10-Year Treasury Constant Maturity Rate",
+       x= "CPI Yearly Change",
+       title= "How are CPI and 10-year yield related?", legend=FALSE) +
+  geom_text(aes(label= month), hjust = 0, vjust = 0, size=2) +
+  geom_text(aes(label = year), hjust = -.8, vjust = 0, size=2) +
+  theme(legend.position = "None") +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(labels = scales::percent) +
+  geom_smooth(method = "lm", alpha = .15) 
+  
+```
+# Challenge 1: Replicating a chart
+
+```{r, challenge1, echo=FALSE, out.width="90%"}
+knitr::include_graphics(here::here("images", "vaxxes_by_state_red_blue_every_county_070321_1.jpeg"), error = FALSE)
+```
+
+```{r, echo=FALSE, cache=TRUE}
+
+# Download CDC vaccination by county
+cdc_url <- "https://data.cdc.gov/api/views/8xkx-amqh/rows.csv?accessType=DOWNLOAD"
+vaccinations <- vroom(cdc_url) %>% 
+  janitor::clean_names() %>% 
+  filter(fips != "UNK") # remove counties that have an unknown (UNK) FIPS code
+
+# Download County Presidential Election Returns
+# https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/VOQCHQ
+election2020_results <- vroom(here::here("data", "countypres_2000-2020.csv")) %>% 
+  janitor::clean_names() %>% 
+  
+  # just keep the results for the 2020 election
+  filter(year == "2020") %>% 
+  
+  # change original name county_fips to fips, to be consistent with the other two files
+  rename (fips = county_fips)
+
+# Download county population data
+population_url <- "https://www.ers.usda.gov/webdocs/DataFiles/48747/PopulationEstimates.csv?v=2232"
+population <- vroom(population_url) %>% 
+  janitor::clean_names() %>% 
+  
+  # select the latest data, namely 2019
+  select(fips = fip_stxt, pop_estimate_2019) %>% 
+  
+  # pad FIPS codes with leading zeros, so they are always made up of 5 characters
+  mutate(fips = stringi::stri_pad_left(fips, width=5, pad = "0"))
+
+```
+
+
+```{r, trump_chart, warning=FALSE}
+population_election <- merge(population, election2020_results, by= "fips" )
+
+challenge_one_graph <- population_election %>% 
+  filter(candidate== "DONALD J TRUMP") %>% 
+  mutate(percentage_Donald= (candidatevotes/totalvotes)) %>% 
+  select(fips, pop_estimate_2019, county_name, percentage_Donald) %>% 
+  filter(percentage_Donald >0.0)
+
+#Cleaning the vaccination data 
+vaccinations_cleaned <- vaccinations %>% 
+  filter(date == '07/04/2021') %>% #Filtering for July 4, 2021
+  mutate(
+    pct_vaccinated=case_when(
+      recip_state %in% c('CA', 'GA', 'IA', 'MI', 'TX') ~ administered_dose1_pop_pct,
+      T ~ series_complete_pop_pct)) %>% #Taking administered_dose1_pop_pct as the pct_vaccinated for CA, GA, IA, MI, and TX as says in the original plot
+  select(fips, pct_vaccinated) %>% #Getting rid of unnecessary columns
+  filter(pct_vaccinated > 0.0) #Filtering out pct_vaccinated = 0%
+
+vaccinations_update <- vaccinations_cleaned %>%  
+  mutate(pct_vaccinated =pct_vaccinated/100)
+
+challenge_one_graph_update <- merge(challenge_one_graph, vaccinations_update, by= "fips" )
+
+head(challenge_one_graph_update)
+
+unique_graph <- challenge_one_graph_update %>% 
+  distinct(fips, county_name, .keep_all=TRUE) 
+
+glimpse(unique_graph)
+skimr::skim(unique_graph) 
+
+unique_graph %>% 
+  ggplot(aes(x= percentage_Donald, y= pct_vaccinated, color= percentage_Donald )) +
+  geom_point() +
+  labs( x= "2020 Trump Vote %", y= "% of Total Population Vaccinated") +
+  geom_smooth(method = "lm", alpha = .15) +
+  theme(legend.position = "None") +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(labels = scales::percent) 
+
+```
+
+# Challenge 2: Opinion polls for the 2021 German elections
+
+```{r, scrape_wikipedia_polling_data, warnings= FALSE, message=FALSE}
+url <- "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2021_German_federal_election"
+
+# similar graphs and analyses can be found at 
+# https://www.theguardian.com/world/2021/jun/21/german-election-poll-tracker-who-will-be-the-next-chancellor
+# https://www.economist.com/graphic-detail/who-will-succeed-angela-merkel
+
+
+# get tables that exist on wikipedia page 
+tables <- url %>% 
+  read_html() %>% 
+  html_nodes(css="table")
+
+
+# parse HTML tables into a dataframe called polls 
+# Use purr::map() to create a list of all tables in URL
+polls <- map(tables, . %>% 
+             html_table(fill=TRUE)%>% 
+             janitor::clean_names())
+
+
+# list of opinion polls
+german_election_polls <- polls[[1]] %>% # the first table on the page contains the list of all opinions polls
+  slice(2:(n()-1)) %>%  # drop the first row, as it contains again the variable names and last row that contains 2017 results
+  mutate(
+         # polls are shown to run from-to, e.g. 9-13 Aug 2021. We keep the last date, 13 Aug here, as the poll date
+         # and we extract it by picking the last 11 characters from that field
+         end_date = str_sub(fieldwork_date, -11),
+         
+         # end_date is still a string, so we convert it into a date object using lubridate::dmy()
+         end_date = dmy(end_date),
+         
+         # we also get the month and week number from the date, if we want to do analysis by month- week, etc.
+         month = month(end_date),
+         week = isoweek(end_date)
+         )
+```
+
+```{r, challenge_two, warning=FALSE}
+
+df_german_election_rolling_mean <- german_election_polls %>%  
+  select(end_date, union, spd, af_d, fdp, linke, grune) %>%
+  mutate(
+    #calculate 14-day rolling average for 6 parliaments
+    union_14 = zoo::rollmean(union, k=14, fill = NA),
+    spd_14 = zoo::rollmean(spd, k=14, fill = NA),
+    af_d_14 = zoo::rollmean(af_d, k=14, fill = NA),
+    fdp_14 = zoo::rollmean(fdp, k=14, fill = NA),
+    linke_14 = zoo::rollmean(linke, k=14, fill = NA),
+    grune_14 = zoo::rollmean(grune, k=14, fill = NA)) %>%
+  select(end_date, union_14, spd_14, af_d_14, fdp_14, linke_14, grune_14)
+
+    
+  #Here different columns of parliaments are categorised into one column named parliament, with their respective 14-day rolling average on different date 
+long_df_german_election_rolling_mean <- df_german_election_rolling_mean %>% 
+    gather(parliament, rolling_14, union_14:grune_14) %>%
+    group_by(end_date,parliament) 
+   
+long_df_german_election_rolling_mean <- long_df_german_election_rolling_mean %>%
+    mutate(parliament = factor(parliament,
+                  levels = c("union_14", "spd_14", "grune_14", "fdp_14", "af_d_14", "linke_14"),
+                  labels = c("CDU/CSU", "SPD", "GRUNE", "FDP", "AFD", "LINKE")))
+
+head(long_df_german_election_rolling_mean)
+    
+p_14day <- ggplot(long_df_german_election_rolling_mean, aes(x=end_date, 
+                           y=rolling_14,  
+                           colour=parliament)) +
+      geom_point(alpha = 0.1,size = 1.5) +
+      geom_line(size = 1) 
+
+p_14day <- p_14day + 
+    scale_x_date(date_labels = "%b",
+                 breaks = function(x) seq.Date(from = min(x), 
+                                                 to = max(x), 
+                                                 by = "1 month"),
+                 minor_breaks = function(x) seq.Date(from = min(x), 
+                                                    to = max(x), 
+                                                 by = "1 month")) +
+    scale_y_continuous(breaks = c(5, 15, 25, 35, 45)) +
+    NULL
+
+
+my_colour_palette = c(
+  "#000000", #CDU
+  "#E3000F", #SPD
+  "#1AA037", #GRUNE
+  "#FFEF00", #FDP
+  "#0489DB", #AFD
+  "#951d7a"  #LINKE
+)
+
+p_14day <- p_14day +
+    labs(title = "Opinion Polling for 2021 German Federal Election",
+         subtitle = "Share of Seats in the Resulting Parliament",
+         x = "End Date", 
+         y = "14-day Rolling Average (%)",
+         caption = "Source: https://en.wikipedia.org/wiki/Opinion_polling_for_the_2021_German_federal_election",
+         ) + 
+    scale_colour_manual(values=my_colour_palette)+
+    scale_fill_manual(values=my_colour_palette)
+  
+p_14day
+```
