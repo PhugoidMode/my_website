@@ -75,8 +75,8 @@ params:
       - name: Elements
         url: elements.html
     menu: Menu
-    subtitle: Website
-    title: Rishabh's
+    subtitle: Sinha
+    title: Rishabh
   tiles:
     enable: yes
     showcase:
