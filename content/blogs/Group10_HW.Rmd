@@ -1,8 +1,8 @@
 ---
-title: "Session 2: Homework 1"
-author: "GROUP 10"
+title: "First Exploration of R"
+author: "Rishabh Sinha"
 date: "20212-09-30`"
-description: Homework 1 of Data Analytics for Finance
+description: Investigation Into Youth Behaviour, Cinema Ratings, and more
 image: 
 keywords: ''
 slug: Group10_HW
