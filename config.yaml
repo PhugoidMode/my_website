@@ -86,7 +86,7 @@ params:
         url: blogs/aliquam
       - image: pic02.jpg
         subtitle: Istanbul AirBnB Price Analysis  # Top right
-        title: A Regression Analysis on the Price of AirBnBs in Istanbul
+        title: A regression model to predict room prices
         url: blogs/Group_10_Assignment.html
       - image: JetXXPEC.jpg
         subtitle: An independently designed and built jet engine  # Middle left
@@ -119,6 +119,6 @@ params:
     Ambassador for the Institution of Engineering and Technology, and interned
     at Barclays Investment Bank. \n He is now studying for a Master's in 
     Financial Analysis at London Business School. \n \n In his spare time, he 
-    enjoys reading, cooking, AC/DC, and Pink Floyd. \n"
+    enjoys reading, cooking, AC/DC, Pink Floyd, andf the Oxford comma. \n"
     title: About Rishabh
     url: blogs
