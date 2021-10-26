@@ -85,8 +85,8 @@ params:
         title: Writing
         url: blogs/aliquam
       - image: pic02.jpg
-        subtitle: Istanbul AirBnB Price Analysis  # Top right
-        title: A regression model to predict room prices
+        subtitle: A regression model to predict room pricing  # Top right
+        title: Istanbul AirBnB Price Analysis
         url: blogs/Group_10_Assignment.html
       - image: JetXXPEC.jpg
         subtitle: An independently designed and built jet engine  # Middle left
