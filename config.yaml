@@ -70,8 +70,8 @@ params:
         url: '#'
       - name: Blogs
         url: blogs
-      - name: Generic Blog
-        url: blogs/ipsum
+      - name: Expanded Biography
+        url: blogs/expandedbio
       - name: Elements
         url: elements.html
     menu: Menu
