@@ -7,8 +7,8 @@ description: Alarms writing one
 draft: false
 image: pic07.jpg
 keywords: ""
-slug: aliquam
-title: Aliquam
+slug: writing
+title: Writing
 ---
 
 As part of a writing exercise hosted by the London Business School Writing Club, we were prompted to write about a day in our life. The following is my take on this prompt: 
